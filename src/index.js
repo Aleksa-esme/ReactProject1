@@ -4,42 +4,39 @@ import {Message} from './Message';
 
 import './index.css';
 
-function App() {
+const App = () => {
   const [messageList, setMessageList] = useState([]);
   const [inputText, setInputText] = useState('');
-
-
-  
 
   const inputValue = (e) => {
     setInputText(e.target.value);
   }
 
-  const addText = () => {
-    addMessage('user0', inputText);
+  const addMessage = () => {
+    setMessageList([...messageList, {author: 'User', text: inputText}]);
     setInputText('');
-  }
-
-  const addMessage = (user, text) => {
-    setMessageList([...messageList, {author: user, text: text}]);
   }
 
   return (
     <div>
-      <form>
-        <input onChange={inputValue} type='text' text={inputText} placeholder='Ваше сообщение...'></input>
-        <button onClick={addText}>Отправить</button>  
-      </form>
-      
-        {messageList.map((message, index) => {
-          return (<Message index={index + 1} author={message.author} text={message.text} />)})}
-           
+        {messageList.map(message => (
+          <React.Fragment key={message.id}>
+            <p className="Message-text">Автор: {message.author}</p>
+            <p className="Message-text">Текcт: {message.text}</p>
+          </React.Fragment>
+        ))}
+        <form>
+          <input onChange={inputValue} type='text' value={inputText} placeholder='Ваше сообщение...'></input>
+          <button onClick={addMessage}>Отправить</button>  
+        </form>  
     </div>
   )
 }
 
 ReactDOM.render(
-  <App />,
+  <React.StrictMode>
+  <App />
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
