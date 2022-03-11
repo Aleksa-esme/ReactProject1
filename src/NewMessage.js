@@ -1,6 +1,6 @@
-import './Message.css';
+import React from "react";
 
-export function Message(props) {
+export default function NewMessage(props) {
   return (
     <div className="Message">
       <header className="Message-header">
