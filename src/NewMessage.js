@@ -2,11 +2,16 @@ import React from "react";
 
 export default function NewMessage(props) {
   return (
-    <div className="Message">
-      <header className="Message-header">
-        <h3 className="Message-text">{props.text}</h3>
-      </header>
-    </div>
+    <form onSubmit={props.handleSubmit}>
+      <p>{props.newMessage.author}</p>
+      <input 
+        name="text"
+        placeholder="Введите сообщение"
+        value={props.newMessage.text || ''}
+        onChange={props.handleChange}
+      />
+      <button type="submit">Отправить</button>
+    </form>
   );
 }
 
