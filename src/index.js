@@ -1,18 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Message} from './Message';
+import App from './App';
 
 import './index.css';
 
-
-const myText = <p>My name is Aleksa!</p>;
-
-
-
-
 ReactDOM.render(
   <React.StrictMode>
-    <Message text={myText}/>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
