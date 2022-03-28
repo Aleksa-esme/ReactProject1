@@ -16,7 +16,7 @@ const useStyles = makeStyles((ctx) => {
   };
 });
 
-export default function Chat({ title, selected, handleListItemClick }) {
+export function Chat({ title, selected, handleListItemClick }) {
   const styles = useStyles();
 
   return (

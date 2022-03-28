@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { List } from "@mui/material";
-import Chat from "./Chat/Chat";
+import  { Chat }  from "./Chat";
 
-export default function ChatList() {
+export function ChatList() {
   const [chats] = useState(["room1", "room2", "room3"]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
