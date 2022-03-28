@@ -15,4 +15,3 @@ export const Message = memo(({ message }) => {
     </div>
   );
 });
-
