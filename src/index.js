@@ -1,9 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider, createTheme } from "@mui/material";
-import App from './components/App/App'
+import { MessageList, Template, ChatList, Header } from "./components";
 
 import './global.css';
+
+const App = () => {
+  return (
+    <>
+      <Template
+        messages={<MessageList />}
+        chats={<ChatList />}
+        header={<Header />}
+      />
+    </>
+  );
+};
 
 const theme = createTheme({
   palette: {
@@ -24,5 +36,4 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
 
