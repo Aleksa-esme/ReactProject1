@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import NewMessage from './NewMessage';
-import MessageList from './MessageList';
+import NewMessage from './MessageList/NewMessage/NewMessage';
+import MessageList from './MessageList/MessageList';
+import Template from './Template/Template';
+import ChatList from './ChatList/ChatList';
+
 
 export default function App() {
     const [newMessage, setNewMessage] = useState({});
@@ -20,6 +23,12 @@ export default function App() {
         setNewMessage({});
     };
 
+    const handleKeyPress = (evt) => {
+        if (evt.code === "Enter") {
+            handleSubmit(evt);
+        }
+    };
+
     useEffect(() => {
         const botAnswer = 'Hi! It\'s bot...';
         const lastMessage = messageList[messageList.length - 1];
@@ -27,7 +36,7 @@ export default function App() {
 
         if(messageList.length > 0 && lastMessage.author !== 'Bot') {
             timerId = setTimeout(() => {
-                setMessageList([...messageList, {author:'Bot', text:botAnswer}])
+                setMessageList([...messageList, {author:'Bot', text:botAnswer, date: new Date().toLocaleDateString()}])
             }, 1500);
         }
 
@@ -36,14 +45,17 @@ export default function App() {
 
     return (
         <main>
-            <h1>Сообщения</h1>
-            <NewMessage 
-                newMessage={newMessage}
-                handleChange={handleChange}
-                handleSubmit={handleSubmit}
-            />
-            <MessageList 
-                messageList={messageList}
+            <Template
+                messageList={<MessageList 
+                                messageList={messageList}
+                            />}
+                chats={<ChatList />}           
+                messages={<NewMessage 
+                            newMessage={newMessage}
+                            handleChange={handleChange}
+                            handleKeyPress={handleKeyPress}
+                            handleSubmit={handleSubmit}
+                        />}
             />
         </main>
     );
