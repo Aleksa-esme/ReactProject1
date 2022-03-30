@@ -6,13 +6,6 @@
     flex-direction: column;
   }
   
-  .header {
-    flex: none;
-    background-color: #17212b;
-    border-bottom: 1px solid #000;
-    padding: 10px 0;
-  }
-  
   .content {
     display: flex;
     width: 100%;

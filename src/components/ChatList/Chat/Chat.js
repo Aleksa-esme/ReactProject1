@@ -1,9 +1,10 @@
+import React from "react";
 import { ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 import st from "./chat.module.css";
 
-const useStyles = makeStyles((ctx) => {
+const useStyles = makeStyles(() => {
   return {
     item: {
       "&.Mui-selected": {
@@ -16,12 +17,11 @@ const useStyles = makeStyles((ctx) => {
   };
 });
 
-export function Chat({ title, selected, handleListItemClick }) {
+export function Chat({ title, selected }) {
   const styles = useStyles();
 
   return (
     <ListItemButton
-      onClick={handleListItemClick}
       className={styles.item}
       selected={selected}
     >

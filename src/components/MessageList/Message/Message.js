@@ -1,4 +1,4 @@
-import { memo } from "react";
+import React, { memo } from "react";
 import cls from "classnames";
 import styles from "./message.module.css";
 

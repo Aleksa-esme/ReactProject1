@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { Input, InputAdornment } from "@mui/material";
 import { Send } from "@mui/icons-material";
 import { Message } from "./Message";
@@ -7,50 +8,59 @@ import { useStyles } from "./use-styles";
 
 export const MessageList = () => {
   const ref = useRef();
+  const { roomId } = useParams();
 
   const [value, setValue] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messageList, setMessageList] = useState({});
 
   const styles = useStyles();
 
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollTo(0, ref.current.scrollHeight);
+    }
+  }, [messageList]);
+
+  const MessageContent = (author, message) => {
+    setMessageList({...messageList, [roomId]: [ //...messageList-сохраняем все предыдущие значения для обновляемого объекта(сообщения всех комнат); roomId-обновляем конкретное св-во у объекта
+      ...(messageList[roomId] ?? []), //...messageList[roomId]-сохранить сообщения этой комнаты; ?? [] - если пришел undefind, ставим пустой массив
+      {
+        author: author,
+        message: message,
+        date: new Date().toLocaleTimeString(),
+      },
+    ],})
+  }
+
   const sendMessage = () => {
-    if (value) {setMessages([...messages,
-        {
-          author: "User",
-          message: value,
-          date: new Date().toLocaleTimeString(),
-        },
-      ]);
+    if (value) {
+      MessageContent('User', value);;
       setValue("");
     }
   };
 
   const handlePressInput = ({ code }) => {
     if (code === "Enter") {
-      sendMessage();
+      sendMessage(value);
     }
   };
 
   useEffect(() => {
-    const lastMessages = messages[messages.length - 1];
+    const messages = messageList[roomId] ?? [];
+    const lastMessage = messages[messages.length - 1];
     let timerId = null;
 
-    if (messages.length && lastMessages.author === "User") {
+    if (messages.length && lastMessage.author === "User") {
       timerId = setTimeout(() => {
-        setMessages([
-          ...messages,
-          {
-            author: "Bot",
-            message: "Hi! It's bot...",
-            date: new Date().toLocaleTimeString(),
-          },
-        ]);
+        MessageContent('Bot', "Hi! It's bot...");
       }, 2000);
     }
 
     return () => { clearInterval(timerId)};
-  }, [messages] );
+  }, [messageList, roomId] );
   
+  const messages = messageList[roomId] ?? [];
+
   return (
     <>
       <div ref={ref}>
