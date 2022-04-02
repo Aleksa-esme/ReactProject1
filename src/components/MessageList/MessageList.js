@@ -34,7 +34,7 @@ export const MessageList = () => {
 
   const sendMessage = () => {
     if (value) {
-      MessageContent('User', value);;
+      MessageContent('User', value);
       setValue("");
     }
   };

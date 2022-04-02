@@ -1,11 +1,15 @@
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { ThemeProvider, createTheme } from "@mui/material";
 import { Header } from "./components";
 import { Home, Profile, ChatPage } from "./pages";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './global.css';
+
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
 
 const theme = createTheme({
   palette: {
@@ -18,8 +22,8 @@ const theme = createTheme({
   },
 });
 
-ReactDOM.render(
-  <React.StrictMode>
+root.render(
+  <StrictMode>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Header />
@@ -31,6 +35,5 @@ ReactDOM.render(
           </Routes>
       </BrowserRouter>
     </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
