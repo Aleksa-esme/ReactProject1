@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { Input, InputAdornment } from "@mui/material";
 import { Send } from "@mui/icons-material";
@@ -21,23 +21,21 @@ export const MessageList = () => {
     }
   }, [messageList]);
 
-  const MessageContent = (author, message) => {
-    setMessageList({...messageList, [roomId]: [ //...messageList-сохраняем все предыдущие значения для обновляемого объекта(сообщения всех комнат); roomId-обновляем конкретное св-во у объекта
-      ...(messageList[roomId] ?? []), //...messageList[roomId]-сохранить сообщения этой комнаты; ?? [] - если пришел undefind, ставим пустой массив
-      {
-        author: author,
-        message: message,
-        date: new Date().toLocaleTimeString(),
-      },
-    ],})
-  }
-
-  const sendMessage = () => {
-    if (value) {
-      MessageContent('User', value);
-      setValue("");
-    }
-  };
+  const sendMessage = useCallback(
+    (message, author = "User") => {
+      if (message) {
+        setMessageList({...messageList, [roomId]: [ //...messageList-сохраняем все предыдущие значения для обновляемого объекта(сообщения всех комнат); roomId-обновляем конкретное св-во у объекта
+        ...(messageList[roomId] ?? []), //...messageList[roomId]-сохранить сообщения этой комнаты; ?? [] - если пришел undefind, ставим пустой массив
+        {
+          author,
+          message,
+          date: new Date().toLocaleTimeString(),
+        },
+        ],});
+        setValue("");
+      }
+    }, [messageList, roomId]
+  );
 
   const handlePressInput = ({ code }) => {
     if (code === "Enter") {
@@ -52,12 +50,12 @@ export const MessageList = () => {
 
     if (messages.length && lastMessage.author === "User") {
       timerId = setTimeout(() => {
-        MessageContent('Bot', "Hi! It's bot...");
+        sendMessage("Hi! It's bot...", 'Bot');
       }, 2000);
     }
 
     return () => { clearInterval(timerId)};
-  }, [messageList, roomId] );
+  }, [messageList, roomId, sendMessage]);
   
   const messages = messageList[roomId] ?? [];
 
