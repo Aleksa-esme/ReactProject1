@@ -72,8 +72,8 @@ export const Header = () => {
               }}
             >
               {pages.map((page) => (
-                <Link to={page.to}>
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <Link to={page.to} key={page.to}>
+                <MenuItem onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.title}</Typography>
                 </MenuItem>
               </Link>
@@ -91,9 +91,8 @@ export const Header = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link to={page.to}>
+              <Link to={page.to} key={page.to}>
               <Button
-                  key={page}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >{page.title}

@@ -15,3 +15,5 @@ export const Message = memo(({ message }) => {
     </div>
   );
 });
+
+//вызвать функцию delete и передать сюда нужную комнату и нужный id
