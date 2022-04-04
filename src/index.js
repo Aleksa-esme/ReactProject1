@@ -16,10 +16,16 @@ const root = createRoot(rootElement);
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#0052cc',
+      light: '#ae52d4',
+      main: '#7b1fa2',
+      dark: '#4a0072',
+      contrastText: '#fff',
     },
     secondary: {
-      main: '#edf2ff',
+      light: '#8559da',
+      main: '#512da8',
+      dark: '#140078',
+      contrastText: '#fff',
     },
   },
 });
