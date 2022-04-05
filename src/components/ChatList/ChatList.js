@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useNavigate} from 'react-router-dom';
-import { List, Button } from "@mui/material";
-import  { Chat }  from "./Chat";
+import { List, Button, Menu, MenuItem } from "@mui/material";
+import { Chat }  from "./Chat";
 import { createConversation, deleteConversation, conversationSelector } from "../../store/conversations";
 
-
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -53,7 +50,6 @@ export function ChatList() {
     <List component="nav">
       <Button 
       onClick={create}
-      endIcon={<KeyboardArrowDownIcon />}
       >create room
       </Button>
       

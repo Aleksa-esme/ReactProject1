@@ -7,6 +7,7 @@ const initialState = {
     role: "admin",
     phone: "12312321312321",
     country: "ru",
+    image: '',
 };
 
 /* 
