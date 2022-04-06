@@ -1,12 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import React from 'react';
+import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { Header } from "./components";
 import { Home, Profile, ChatPage } from "./pages";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { store } from './store';
+import { store, persistor } from './store';
 
 import './global.css';
 
@@ -33,17 +34,19 @@ const theme = createTheme({
 root.render(
   <StrictMode>
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Header />
-            <Routes>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/profile" element={<Profile />}></Route>
-              <Route path="/chat/*" element={<ChatPage />}></Route>
-              <Route path="*" element={ <h1>404</h1> }></Route>
-            </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
+    <PersistGate persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Header />
+              <Routes>
+                <Route path="/" element={<Home />}></Route>
+                <Route path="/profile" element={<Profile />}></Route>
+                <Route path="/chat/*" element={<ChatPage />}></Route>
+                <Route path="*" element={ <h1>404</h1> }></Route>
+              </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </PersistGate>
     </Provider>
   </StrictMode>
 );

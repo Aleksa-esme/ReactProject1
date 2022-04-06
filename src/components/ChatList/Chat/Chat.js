@@ -1,5 +1,7 @@
 import React from "react";
-import { ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { useSelector } from 'react-redux';
+import { lastMessageSelector } from "../../../store/messages";
+import { ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 import st from "./chat.module.css";
@@ -19,6 +21,7 @@ const useStyles = makeStyles(() => {
 
 export function Chat({ title, selected }) {
   const styles = useStyles();
+  const message = useSelector(lastMessageSelector(title));
 
   return (
     <ListItemButton
@@ -28,7 +31,21 @@ export function Chat({ title, selected }) {
       <ListItem>
         <AccountCircle fontSize="large" className={st.icon} />
       </ListItem>
-      <ListItemText primary={title} className={st.text} />
+      <ListItemText primary={title} className={st.text} secondary={
+        message && (
+          <React.Fragment>
+              <Typography
+                sx={{ display: 'inline' }}
+                component="span"
+                variant="body2"
+                color="secondary"
+              >
+                {message.author}
+              </Typography>
+              {message.message}
+            </React.Fragment>
+        )
+      }/>
     </ListItemButton>
   );
 }

@@ -1,4 +1,5 @@
-import { CREATE_CONVERSATION, DELETE_CONVERSATION } from "./types";
+import { CREATE_CONVERSATION } from "./types";
+import { DELETE_CONVERSATION } from '../types'
 
 /* actionCreator */
 

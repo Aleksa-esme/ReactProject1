@@ -41,24 +41,24 @@ export const MessageList = () => {
     }
   };
 
-  useEffect(() => {
-    const lastMessage = messages[messages.length - 1];
-    let timerId = null;
+  // useEffect(() => {
+  //   const lastMessage = messages[messages.length - 1];
+  //   let timerId = null;
 
-    if (messages.length && lastMessage.author === "User") {
-      timerId = setTimeout(() => {
-        send("Hi! It's bot...", 'Bot');
-      }, 2000);
-    }
+  //   if (messages.length && lastMessage.author === "User") {
+  //     timerId = setTimeout(() => {
+  //       send("Hi! It's bot...", 'Bot');
+  //     }, 2000);
+  //   }
 
-    return () => { clearInterval(timerId)};
-  }, [messages, roomId, send]);
+  //   return () => { clearInterval(timerId)};
+  // }, [messages, roomId, send]);
   
   return (
     <>
       <div ref={ref}>
         {messages.map((message) => (
-          <Message message={message} key={message.date} />
+          <Message message={message} key={message.date} roomId={roomId} />
         ))}
       </div>
 
@@ -71,7 +71,7 @@ export const MessageList = () => {
         fullWidth
         endAdornment={
         <InputAdornment position="end">
-          {value && <Send className={styles.icon} onClick={send} />}
+          {value && <Send className={styles.icon} onClick={() => send(value)} />}
         </InputAdornment>
         }
       />
