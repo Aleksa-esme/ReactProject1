@@ -16,12 +16,13 @@ export function ChatList() {
   const conversations = useSelector(conversationSelector);
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [parentDiv, setParentDiv] = useState();
+  const [roomName, setRoomName] = useState();
   
   const open = Boolean(anchorEl);
   
   const handleClick = (event) => {
-    setParentDiv(event.currentTarget.parentNode);
+    const roomUrl = event.currentTarget.parentNode.href;
+    setRoomName(roomUrl.split('/').pop());
     setAnchorEl(event.currentTarget);
   };
   
@@ -55,28 +56,25 @@ export function ChatList() {
       
       {conversations.map((chat, index) => (
         <div key={index} style={{ display: "flex" }}>
-          
-          <Link to={`/chat/${chat}`}>
+          <Link to={`/chat/${chat}`} style={{ display: "flex" }}>
             <Chat title={chat} selected={roomId === chat} />
+            <Button 
+              endIcon={<KeyboardArrowDownIcon />}
+              onClick={handleClick}
+            ></Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>
+                <EditIcon />Edit name
+              </MenuItem>
+              <MenuItem onClick={() => deleteChat(roomName)}>
+                <DeleteIcon />Delete
+              </MenuItem>
+            </Menu>
           </Link>
-          
-          <Button 
-            endIcon={<KeyboardArrowDownIcon />}
-            onClick={handleClick}
-          ></Button>
-          
-          <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose}>
-              <EditIcon />Edit name
-            </MenuItem>
-            <MenuItem onClick={() => deleteChat(parentDiv.firstChild.textContent)}>{/* сделано крайне по-дурацки. Как переделать? */}
-              <DeleteIcon />Delete
-            </MenuItem>
-          </Menu>
         </div>
       ))}
     </List>
