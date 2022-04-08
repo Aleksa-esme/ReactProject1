@@ -4,11 +4,14 @@
 
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Input, Button } from "@mui/material";
+import { Button, TextField, Avatar, InputLabel, Box } from "@mui/material";
+import SaveAltSharpIcon from '@mui/icons-material/SaveAltSharp';
 import { updateProfile } from "../../store/profile";
+import styles from "./profileForm.module.css";
 
-export function ProfileForm({ firstName, lastName, phone }) {
-  const [form, setForm] = useState({ firstName, lastName, phone });
+export function ProfileForm({ firstName, lastName, phone, image }) {
+  const [form, setForm] = useState({ firstName, lastName, phone, image });
+  const [imageFile, setImageFile] = useState({ title: '' });
 
   const dispatch = useDispatch();
 
@@ -20,46 +23,83 @@ export function ProfileForm({ firstName, lastName, phone }) {
       [field]: event.target.value, //dynamic key
     });
   };
-  //style={{ width: 300 }} переделать стили
+
+  const handleImageChange = (event) => {
+    const cFiles = event.target.files;
+    setImageFile({ title: cFiles[0].name });
+    if (cFiles.length > 0) {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        form.image = fileReader.result;
+      }
+      fileReader.readAsDataURL(cFiles[0]);
+    } 
+  };
+
   return (
-    <div style={{ width: 300 }}>
-      <h1>Edit profile</h1>
+    <div className={styles.form}>
+      <div className={styles.form_image}>
+        <Avatar src={form.image} sx={{ width: 156, height: 156 }} variant='circular' />
+        <div className={styles.input}>
+          <input 
+            type="file" 
+            id="file" 
+            className={styles.file} 
+            onChange={handleImageChange} 
+            >
+          </input>
+          <InputLabel htmlFor="file" className={styles.input_label} >
+            <SaveAltSharpIcon color='primary' />
+            Select file
+          </InputLabel>
+          <TextField
+            disabled
+            fullWidth
+            variant="standard"
+            value={imageFile.title}
+          />
+          
+        </div>
+        <Button onClick={() => {
+            dispatch(updateProfile(form));
+          }}>Save image</Button>
+        
+      </div>
 
-      <Input
-        placeholder="firstName"
-        fullWidth
-        inputProps={{
-          "data-name": "firstName",
-        }}
-        onChange={handleChangeForm}
-        value={form.firstName}
-      />
-      <Input
-        placeholder="lastName"
-        fullWidth
-        inputProps={{
-          "data-name": "lastName",
-        }}
-        onChange={handleChangeForm}
-        value={form.lastName}
-      />
-      <Input
-        placeholder="phone"
-        fullWidth
-        inputProps={{
-          "data-name": "phone",
-        }}
-        onChange={handleChangeForm}
-        value={form.phone}
-      />
-
+      <div className={styles.form_info}>
+      <Box component="form" sx={{'& .MuiTextField-root': { m: 1 }}}>
+        <TextField
+          label="firstName"
+          fullWidth
+          inputProps={{"data-name": "firstName"}}
+          onChange={handleChangeForm}
+          defaultValue={form.firstName}
+          variant="standard"
+        />
+        <TextField
+          label="lastName"
+          fullWidth
+          inputProps={{"data-name":  "lastName"}}
+          onChange={handleChangeForm}
+          defaultValue={form.lastName}
+          variant="standard"
+        />
+        <TextField
+          label="phone"
+          fullWidth
+          inputProps={{"data-name":  "phone"}}
+          onChange={handleChangeForm}
+          defaultValue={form.phone}
+          variant="standard"
+        />
+      </Box>
       <Button
         onClick={() => {
           dispatch(updateProfile(form)); //dispatch -> actionCreator(updateProfile) -> payload(new profile) in action(updateProfile) -> reducer
         }}
-      >
-        save
+      >Edit profile
       </Button>
+      </div>
     </div>
   );
 }

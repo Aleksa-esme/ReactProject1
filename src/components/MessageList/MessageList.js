@@ -1,17 +1,22 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { Input, InputAdornment } from "@mui/material";
 import { Send } from "@mui/icons-material";
 import { Message } from "./Message";
 import { useStyles } from "./use-styles";
+import { sendMessage, messagesSelector } from "../../store/messages";
 
 
 export const MessageList = () => {
   const ref = useRef();
   const { roomId } = useParams();
+  const dispatch = useDispatch();
+
+  const selector = useMemo(() => messagesSelector(roomId), [roomId]); //useMemo-вызывается и возвращает старое значение. Если roomId не изменен, useMemo вернет старое значение результата выбора функции
+  const messages = useSelector(selector);
 
   const [value, setValue] = useState("");
-  const [messageList, setMessageList] = useState({});
 
   const styles = useStyles();
 
@@ -19,46 +24,36 @@ export const MessageList = () => {
     if (ref.current) {
       ref.current.scrollTo(0, ref.current.scrollHeight);
     }
-  }, [messageList]);
+  }, [messages]);
 
-  const sendMessage = useCallback(
+  const send = useCallback(
     (message, author = "User") => {
       if (message) {
-        setMessageList({...messageList, [roomId]: [ //...messageList-сохраняем все предыдущие значения для обновляемого объекта(сообщения всех комнат); roomId-обновляем конкретное св-во у объекта
-        ...(messageList[roomId] ?? []), //...messageList[roomId]-сохранить сообщения этой комнаты; ?? [] - если пришел undefind, ставим пустой массив
-        {
-          author,
-          message,
-          date: new Date().toLocaleTimeString(),
-        },
-        ],});
+        dispatch(sendMessage(roomId, { author: author || 'Bot', message }));
         setValue("");
       }
-    }, [messageList, roomId]
+    }, [roomId, dispatch]
   );
 
   const handlePressInput = ({ code }) => {
     if (code === "Enter") {
-      sendMessage(value);
+      send(value);
     }
   };
 
   useEffect(() => {
-    const messages = messageList[roomId] ?? [];
     const lastMessage = messages[messages.length - 1];
     let timerId = null;
 
     if (messages.length && lastMessage.author === "User") {
       timerId = setTimeout(() => {
-        sendMessage("Hi! It's bot...", 'Bot');
+        send("Hi! It's bot...", 'Bot');
       }, 2000);
     }
 
     return () => { clearInterval(timerId)};
-  }, [messageList, roomId, sendMessage]);
+  }, [messages, roomId, send]);
   
-  const messages = messageList[roomId] ?? [];
-
   return (
     <>
       <div ref={ref}>
@@ -76,7 +71,7 @@ export const MessageList = () => {
         fullWidth
         endAdornment={
         <InputAdornment position="end">
-          {value && <Send className={styles.icon} onClick={sendMessage} />}
+          {value && <Send className={styles.icon} onClick={send} />}
         </InputAdornment>
         }
       />
