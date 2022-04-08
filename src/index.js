@@ -1,21 +1,15 @@
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { ThemeProvider, createTheme } from "@mui/material";
-import { MessageList, Template, ChatList, Header } from "./components";
+import { Header } from "./components";
+import { Home, Profile, ChatPage } from "./pages";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './global.css';
 
-const App = () => {
-  return (
-    <>
-      <Template
-        messages={<MessageList />}
-        chats={<ChatList />}
-        header={<Header />}
-      />
-    </>
-  );
-};
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
 
 const theme = createTheme({
   palette: {
@@ -28,12 +22,18 @@ const theme = createTheme({
   },
 });
 
-ReactDOM.render(
-  <React.StrictMode>
+root.render(
+  <StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <BrowserRouter>
+        <Header />
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/chat/*" element={<ChatPage />}></Route>
+            <Route path="*" element={ <h1>404</h1> }></Route>
+          </Routes>
+      </BrowserRouter>
     </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
-
