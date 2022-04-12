@@ -8,7 +8,7 @@ const initialState = {
           {
             author: "Bot",
             message: "message 333",
-            //date: new Date(),
+            date: new Date().toLocaleTimeString(),
             id: nanoid(),
           },
         ],

@@ -5,10 +5,9 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { Header } from "./components";
-import { Home, Profile, ChatPage } from "./pages";
+import { Home, Profile, ChatPage, Gists, Cats } from "./pages";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { store, persistor } from './store';
-
 import './global.css';
 
 const rootElement = document.getElementById("root");
@@ -42,6 +41,8 @@ root.render(
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/profile" element={<Profile />}></Route>
                 <Route path="/chat/*" element={<ChatPage />}></Route>
+                <Route path="/gists" element={<Gists />}></Route>
+                <Route path="/cats" element={<Cats />}></Route>
                 <Route path="*" element={ <h1>404</h1> }></Route>
               </Routes>
           </BrowserRouter>

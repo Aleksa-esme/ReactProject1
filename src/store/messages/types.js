@@ -1,2 +1,2 @@
-export const SEND_MESSAGE = '@profile/send message';
-export const DELETE_MESSAGE = '@profile/delete message';
+export const SEND_MESSAGE = '@messages/send message';
+export const DELETE_MESSAGE = '@messages/delete message';

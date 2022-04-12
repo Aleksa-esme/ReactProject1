@@ -7,7 +7,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 const pages = [
   {title: 'Home', to: '/'},
   {title: 'Profile', to: '/profile'},
-  {title: 'Chats', to: '/chat'}
+  {title: 'Chats', to: '/chat'},
+  {title: 'Gists', to: '/gists'},
+  {title: 'Cats', to: '/cats'},
 ];
 const settings = ['Profile', 'Account', 'Logout'];
 
