@@ -43,8 +43,8 @@ export function ChatList() {
 
   const deleteChat = (conversation) => {
     dispatch(deleteConversation(conversation));
-    setAnchorEl(null);
     navigate('/chat');
+    setAnchorEl(null);
   }
 
   return (
