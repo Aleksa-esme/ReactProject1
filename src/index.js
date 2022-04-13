@@ -31,7 +31,7 @@ const theme = createTheme({
 });
 
 root.render(
-  <StrictMode>
+  
     <Provider store={store}>
     <PersistGate persistor={persistor}>
         <ThemeProvider theme={theme}>
@@ -49,5 +49,5 @@ root.render(
         </ThemeProvider>
       </PersistGate>
     </Provider>
-  </StrictMode>
+ 
 );
