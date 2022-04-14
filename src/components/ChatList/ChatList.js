@@ -13,7 +13,7 @@ export function ChatList() {
   const  { roomId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const conversations = useSelector(conversationSelector);
+  const { conversations, pending } = useSelector(conversationSelector);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [roomName, setRoomName] = useState();
@@ -45,6 +45,10 @@ export function ChatList() {
     dispatch(deleteConversation(conversation));
     navigate('/chat');
     setAnchorEl(null);
+  };
+
+  if (pending) {
+    return <h1>pending ...</h1>;
   }
 
   return (

@@ -3,17 +3,25 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { signOut } from "firebase/auth";
+import { auth } from "../../api/firebase";
 
-const pages = [
+const menuWithSession = [
   {title: 'Home', to: '/'},
   {title: 'Profile', to: '/profile'},
   {title: 'Chats', to: '/chat'},
   {title: 'Gists', to: '/gists'},
   {title: 'Cats', to: '/cats'},
 ];
+
+const menuWithoutSession = [
+  {title: 'Login', to: '/login'},
+  {title: 'Sign-up', to: '/sign-up'},
+];
+
 const settings = ['Profile', 'Account', 'Logout'];
 
-export const Header = () => {
+export const Header = (session) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -46,6 +54,7 @@ export const Header = () => {
           >
             LOGO
           </Typography>
+          
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -57,7 +66,6 @@ export const Header = () => {
             >
               <MenuIcon />
             </IconButton>
-            
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -76,16 +84,27 @@ export const Header = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <Link to={page.to} key={page.to}>
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page.title}</Typography>
-                </MenuItem>
-              </Link>
-              ))}
+              {!!session && (
+                menuWithSession.map((page) => (
+                  <Link to={page.to} key={page.to}>
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page.title}</Typography>
+                    </MenuItem>
+                  </Link>
+                ))
+              )}
+              {!session && (
+                menuWithoutSession.map((page) => (
+                  <Link to={page.to} key={page.to}>
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <Typography textAlign="center">{page.title}</Typography>
+                    </MenuItem>
+                  </Link>
+                ))
+              )}
             </Menu>
-            
           </Box>
+          
           <Typography
             variant="h6"
             noWrap
@@ -94,17 +113,33 @@ export const Header = () => {
           >
             LOGO
           </Typography>
+          
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Link to={page.to} key={page.to}>
-              <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >{page.title}
-              </Button>
-              </Link>
-            ))}          
+            {!!session && (
+              menuWithSession.map((page) => (
+                <Link to={page.to} key={page.to}>
+                  <Button
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: 'white', display: 'block' }}
+                    >{page.title}
+                  </Button>
+                </Link>
+              ))
+            )}
+            {!session && (
+              menuWithoutSession.map((page) => (
+                <Link to={page.to} key={page.to}>
+                  <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >{page.title}
+                  </Button>
+                </Link>
+              ))
+            )}          
           </Box>
+          
+          {!!session && <Button color="secondary" onClick={() => signOut(auth)}>out</Button>}
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

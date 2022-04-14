@@ -1,4 +1,4 @@
-import { SEND_MESSAGE, sendMessage } from "../messages";
+import { SEND_MESSAGE, createMessageFb } from "../messages";
 
 export const botMessage = (store) => (next) => (action) => {
     if (
@@ -7,7 +7,7 @@ export const botMessage = (store) => (next) => (action) => {
     ) {
         setTimeout(() => {
             store.dispatch(
-                sendMessage(action.payload.roomId, {
+                createMessageFb(action.payload.roomId, {
                     author: 'Bot',
                     message: 'Hi! It\'s middleware bot...',
                 })
@@ -19,3 +19,5 @@ export const botMessage = (store) => (next) => (action) => {
 
 //мидлвары выполняются до того как action попадает в reducer
 //в мидлварах можно выполнять любые действие
+
+// не отправляется, проверить завтра
