@@ -25,24 +25,24 @@ export const sendMessageWithBot = (roomId, message) => (dispatch) => {
 };
 
 export const getMessages = () => async (dispatch, _, api) => {
-    const messages = {};
+  const messages = {};
   
-    try {
-      dispatch(getMessagesStart());
+  try {
+    dispatch(getMessagesStart());
   
-      const snapshot = await api.getMessagesApi();
+    const snapshot = await api.getMessagesApi();
   
-      snapshot.forEach((snap) => {
-        messages[snap.key] = Object.values(snap.val());
-      });
+    snapshot.forEach((snap) => {
+      messages[snap.key] = Object.values(snap.val());
+    });
   
-      dispatch(getMessagesSuccess(messages));
-    } catch (e) {
-      dispatch(getMessagesError(e));
-    }
-  };
+    dispatch(getMessagesSuccess(messages));
+  } catch (e) {
+    dispatch(getMessagesError(e));
+  }
+};
 
-  export const createMessageFb =
+export const createMessageFb =
   (roomId, message) => async (dispatch, _, api) => {
     try {
       dispatch(sendMessagesStart());
@@ -59,4 +59,4 @@ export const getMessages = () => async (dispatch, _, api) => {
     } catch (e) {
       dispatch(sendMessagesError(e));
     }
-  };
+};

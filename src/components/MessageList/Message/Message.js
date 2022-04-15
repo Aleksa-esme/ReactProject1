@@ -1,10 +1,12 @@
 import React, { memo } from "react";
 import { useDispatch } from "react-redux";
-import { deleteMessage } from "../../../store/messages";
 import cls from "classnames";
-import styles from "./message.module.css";
 import { Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+
+import styles from "./message.module.css";
+
+import { deleteMessage } from "../../../store/messages";
 
 export const Message = memo(({ message, roomId }) => {
   const dispatch = useDispatch();

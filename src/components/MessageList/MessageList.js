@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Input, InputAdornment } from "@mui/material";
 import { Send } from "@mui/icons-material";
-import { Message } from "./Message";
-import { useStyles } from "./use-styles";
-import { createMessageFb, messagesSelector } from "../../store/messages";
 
+import { useStyles } from "./use-styles";
+
+import { Message } from "./Message";
+import { createMessageFb, messagesSelector } from "../../store/messages";
 
 export const MessageList = () => {
   const ref = useRef();

@@ -34,67 +34,72 @@ const theme = createTheme({
 });
 
 const App = () => {
-  const [session, setSession] = useState(null);
+  const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setSession(user);
+        setCurrentUser(user);
       } else {
-        setSession(null);
+        setCurrentUser(undefined);
       }
     });
   }, []);
 
-  const isAuth = !!session;
+  // const isAuth = !!currentUser;
 
   return (
     <Provider store={store}>
     <PersistGate persistor={persistor}>
         <ThemeProvider theme={theme}>
           <BrowserRouter>
-            <Header session={isAuth} />
+            <Header currentUser={currentUser} />
               <Routes>
                 <Route path="/" 
                 element={
-                  <PrivateRoute isAuth={isAuth} to="/login">
+                  <PrivateRoute isAuth={currentUser} to="/login">
                     <Home />
-                  </PrivateRoute>} 
+                  </PrivateRoute>
+                  } 
                 />
                 <Route path="/profile" 
                 element={
-                  <PrivateRoute isAuth={isAuth}>
+                  <PrivateRoute isAuth={currentUser}>
                     <Profile />
-                  </PrivateRoute>} 
+                  </PrivateRoute>
+                  } 
                 />
                 <Route path="/chat/*" 
                 element={
-                  <PrivateRoute isAuth={isAuth}>
+                  <PrivateRoute isAuth={currentUser}>
                     <ChatPage />
-                  </PrivateRoute>} 
+                  </PrivateRoute>
+                  } 
                 />
                 <Route path="/gists" 
                 element={
-                  <PrivateRoute isAuth={isAuth}>
+                  <PrivateRoute isAuth={currentUser}>
                     <Gists />
-                  </PrivateRoute>} 
+                  </PrivateRoute>
+                  } 
                 />
                 <Route path="/cats" 
                 element={
-                  <PrivateRoute isAuth={isAuth}>
+                  <PrivateRoute isAuth={currentUser}>
                     <Cats />
-                  </PrivateRoute>} 
+                  </PrivateRoute>
+                  } 
                 />
                 <Route path="/login"
                 element={
-                  <PublicRoute isAuth={isAuth}>
+                  <PublicRoute isAuth={currentUser}>
                     <LoginPage />
                   </PublicRoute>
                 }
               />
               <Route path="/sign-up"
                 element={
-                  <PublicRoute isAuth={isAuth}>
+                  <PublicRoute isAuth={currentUser}>
                     <SignUpPage />
                   </PublicRoute>
                 }

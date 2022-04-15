@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { 
     SEND_MESSAGE, 
     DELETE_MESSAGE, 

@@ -1,4 +1,11 @@
-import { getConversationsStart, getConversationsSuccess, getConversationsError } from "./actions";
+import { 
+    getConversationsStart, 
+    getConversationsSuccess, 
+    getConversationsError,
+    createConversationsStart,
+    createConversationsSuccess,
+    createConversationsError
+} from "./actions";
 
 export const getConversations = () => async (dispatch, _, api) => {
     const conversations = [];
@@ -17,5 +24,18 @@ export const getConversations = () => async (dispatch, _, api) => {
         
     } catch (e) {
         dispatch(getConversationsError(e));
+    }
+};
+
+export const createConversationFb =
+  (title) => async (dispatch, _, api) => {
+    try {
+      dispatch(createConversationsStart());
+
+      await api.createConversationApi(title);
+
+      dispatch(createConversationsSuccess(title));
+    } catch (e) {
+      dispatch(createConversationsError(e));
     }
 };

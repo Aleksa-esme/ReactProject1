@@ -21,7 +21,7 @@ const menuWithoutSession = [
 
 const settings = ['Profile', 'Account', 'Logout'];
 
-export const Header = (session) => {
+export const Header = ({ currentUser }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -52,7 +52,7 @@ export const Header = (session) => {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            LOGO
+            {currentUser ? currentUser.email : 'Logo'}
           </Typography>
           
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -84,7 +84,7 @@ export const Header = (session) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {!!session && (
+              {currentUser && (
                 menuWithSession.map((page) => (
                   <Link to={page.to} key={page.to}>
                     <MenuItem onClick={handleCloseNavMenu}>
@@ -93,7 +93,7 @@ export const Header = (session) => {
                   </Link>
                 ))
               )}
-              {!session && (
+              {!currentUser && (
                 menuWithoutSession.map((page) => (
                   <Link to={page.to} key={page.to}>
                     <MenuItem onClick={handleCloseNavMenu}>
@@ -115,7 +115,7 @@ export const Header = (session) => {
           </Typography>
           
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {!!session && (
+            {currentUser && (
               menuWithSession.map((page) => (
                 <Link to={page.to} key={page.to}>
                   <Button
@@ -126,7 +126,7 @@ export const Header = (session) => {
                 </Link>
               ))
             )}
-            {!session && (
+            {!currentUser && (
               menuWithoutSession.map((page) => (
                 <Link to={page.to} key={page.to}>
                   <Button
@@ -139,7 +139,7 @@ export const Header = (session) => {
             )}          
           </Box>
           
-          {!!session && <Button color="secondary" onClick={() => signOut(auth)}>out</Button>}
+          {currentUser && <Button color="secondary" onClick={() => signOut(auth)}>out</Button>}
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
