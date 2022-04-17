@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => {
   };
 });
 
-export function Chat({ title, selected }) {
+export function Chat({ title, selected, onClick }) {
   const styles = useStyles();
   const lastMessage = useSelector(lastMessageSelector(title));
 
@@ -29,11 +29,12 @@ export function Chat({ title, selected }) {
     <ListItemButton
       className={styles.item}
       selected={selected}
+      data-testid='wrapper'
     >
       <ListItem>
         <AccountCircle fontSize="large" className={st.icon} />
       </ListItem>
-      <ListItemText primary={title} className={st.text} secondary={
+      <ListItemText primary={title} className={st.text} onClick={onClick} secondary={
         lastMessage && (
           <React.Fragment>
               <Typography

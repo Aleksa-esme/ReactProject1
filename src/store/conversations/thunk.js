@@ -13,7 +13,7 @@ export const getConversations = () => async (dispatch, _, api) => {
     try {
         dispatch(getConversationsStart());
 
-        const snapshot = await api.getConversationApi();
+        const snapshot = await api.getConversationApi(); //можно получить здесь, тк функция есть в withExtraArgument
 
         //нормализация данных
         snapshot.forEach((snap) => {

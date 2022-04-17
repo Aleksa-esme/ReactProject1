@@ -44,12 +44,12 @@ export const conversationsReducer = (state = initialState, action) => {
         case CREATE_CONVERSATIONS_SUCCESS:
             return {
                 ...state, 
-                conversations: [...state.conversations, action.payload]
+                conversations: [action.payload, ...state.conversations]
             };
         case CREATE_CONVERSATIONS_ERROR:
             return {
                 ...state,
-                errorCreateConversation: action.payload,
+                errorCreateConversation: action.payload, 
             };
         default:
             return state;
