@@ -2,18 +2,19 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams, useNavigate} from 'react-router-dom';
 import { List, Button, Menu, MenuItem } from "@mui/material";
-import { Chat }  from "./Chat";
-import { createConversation, deleteConversation, conversationSelector } from "../../store/conversations";
-
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
+import { Chat }  from "./Chat";
+import { createConversationFb, deleteConversation, conversationSelector } from "../../store/conversations";
+
 
 export function ChatList() {
   const  { roomId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const conversations = useSelector(conversationSelector);
+  const { conversations, pending } = useSelector(conversationSelector);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [roomName, setRoomName] = useState();
@@ -34,8 +35,8 @@ export function ChatList() {
     const name = prompt('Введите название чата');
     const isValidName = !conversations.includes(name);
 
-    if (!!name && isValidName) { // !!-преобразование значения в его логический эквивалент; !!'строка' - true
-      dispatch(createConversation(name));
+    if (!!name && isValidName) {
+      dispatch(createConversationFb(name));
     } else {
       alert('Такой чат уже существует');
     }
@@ -45,6 +46,10 @@ export function ChatList() {
     dispatch(deleteConversation(conversation));
     navigate('/chat');
     setAnchorEl(null);
+  };
+
+  if (pending) {
+    return <h1>pending ...</h1>;
   }
 
   return (

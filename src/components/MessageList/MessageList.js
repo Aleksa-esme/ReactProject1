@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Input, InputAdornment } from "@mui/material";
 import { Send } from "@mui/icons-material";
-import { Message } from "./Message";
-import { useStyles } from "./use-styles";
-import { sendMessage, messagesSelector } from "../../store/messages";
 
+import { useStyles } from "./use-styles";
+
+import { Message } from "./Message";
+import { createMessageFb, messagesSelector } from "../../store/messages";
 
 export const MessageList = () => {
   const ref = useRef();
@@ -29,7 +30,7 @@ export const MessageList = () => {
   const send = useCallback(
     (message, author = "User") => {
       if (message) {
-        dispatch(sendMessage(roomId, { author: author || 'Bot', message }));
+        dispatch(createMessageFb(roomId, { author: author || 'Bot', message }));
         setValue("");
       }
     }, [roomId, dispatch]
@@ -41,18 +42,18 @@ export const MessageList = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const lastMessage = messages[messages.length - 1];
-  //   let timerId = null;
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    let timerId = null;
 
-  //   if (messages.length && lastMessage.author === "User") {
-  //     timerId = setTimeout(() => {
-  //       send("Hi! It's bot...", 'Bot');
-  //     }, 2000);
-  //   }
+    if (messages.length && lastMessage.author === "User") {
+      timerId = setTimeout(() => {
+        send("Hi! It's bot...", 'Bot');
+      }, 2000);
+    }
 
-  //   return () => { clearInterval(timerId)};
-  // }, [messages, roomId, send]);
+    return () => { clearInterval(timerId)};
+  }, [messages, roomId, send]);
   
   return (
     <>

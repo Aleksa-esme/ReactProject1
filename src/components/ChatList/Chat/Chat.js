@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector } from 'react-redux';
-import { lastMessageSelector } from "../../../store/messages";
 import { ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
+
+import { lastMessageSelector } from "../../../store/messages";
+
 import st from "./chat.module.css";
 
 const useStyles = makeStyles(() => {
@@ -19,20 +21,21 @@ const useStyles = makeStyles(() => {
   };
 });
 
-export function Chat({ title, selected }) {
+export function Chat({ title, selected, onClick }) {
   const styles = useStyles();
-  const message = useSelector(lastMessageSelector(title));
+  const lastMessage = useSelector(lastMessageSelector(title));
 
   return (
     <ListItemButton
       className={styles.item}
       selected={selected}
+      data-testid='wrapper'
     >
       <ListItem>
         <AccountCircle fontSize="large" className={st.icon} />
       </ListItem>
-      <ListItemText primary={title} className={st.text} secondary={
-        message && (
+      <ListItemText primary={title} className={st.text} onClick={onClick} secondary={
+        lastMessage && (
           <React.Fragment>
               <Typography
                 sx={{ display: 'inline' }}
@@ -40,9 +43,9 @@ export function Chat({ title, selected }) {
                 variant="body2"
                 color="secondary"
               >
-                {message.author}
+                {lastMessage.author}
               </Typography>
-              {message.message}
+              {lastMessage.message}
             </React.Fragment>
         )
       }/>
